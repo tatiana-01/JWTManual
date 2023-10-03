@@ -37,6 +37,7 @@ Para iniciar con la clase userService debemos declarar dos llaves que vamos a us
 
 El primer método que vamos a crear es encriptar de tipo sha256 un texto
 ![photo](https://github.com/tatiana-01/JWTManual/raw/main/images/repoUserService2.png)
+
 Este método convierte la cadena de texto en un arreglo de bytes utilizando ASCIIEncoding, y luego se calcula el hash SHA-256 de esos bytes utilizando el método ComputeHash de SHA256, para después convertir a decimal con strongbuilder y el ciclo for, por último se convierte a string y se retorna.
 
 Después creamos los métodos para encriptar y desencriptar con las llaves que declaramos anteriormente
