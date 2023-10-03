@@ -11,6 +11,9 @@ Este token de autenticación se utiliza para todas las consultas y operaciones d
 
 ## Roadmap
 
+Para iniciar este proyetco se debe tener como base un proyecto 4 capas en .Net con una base de datos que contenga la tabla usuarios con atributos: Id, Fecha alta, Email, Password y Fecha baja.
+
+
 - Creación metodos de encriptacion y servicios de usuario
 
 - Creacion controlador con edpoints
