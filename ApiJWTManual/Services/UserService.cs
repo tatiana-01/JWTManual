@@ -189,6 +189,35 @@ public class UserService : IUserService
             return "-3";        // -3 = Error
         }
     }
+     public string GetEmailUsuarioFromToken(string token)
+    {
+        token = CorregirToken(token);
+        string tokenDescodificado = AES256_Desencriptar(AES256_USER_Key, token);
+        string emailUsuario = tokenDescodificado.Split('#')[0];
+        return emailUsuario;
+    }
+
+    public bool ValidarTokenUsuario(string tokenUsuario)
+    {
+        try
+        {
+            tokenUsuario = CorregirToken(tokenUsuario);
+            string tokenDescodificado = AES256_Desencriptar(AES256_USER_Key, tokenUsuario);
+            string emailUsuario = tokenDescodificado.Split('#')[0];
+            string fecha = tokenDescodificado.Split('#')[1];
+            var usuario = _unitOfWork.Usuarios.Find(p => p.Email == emailUsuario).First();
+            // Validar fecha
+            DateTime fechaCaducidad = DateTime.ParseExact(fecha, "yyyyMMddHHmmss", System.Globalization.CultureInfo.InvariantCulture);
+            if (DateTime.UtcNow > fechaCaducidad || DateTime.UtcNow > usuario.FechaBaja )
+                return false;
+            else
+                return true;
+        }
+        catch (Exception)
+        {
+            return false;
+        }
+    }
 
     public bool SetPassword(string token, string newPassword,string oldPassword)
     {
@@ -221,35 +250,7 @@ public class UserService : IUserService
         }
     }
 
-    public string GetEmailUsuarioFromToken(string token)
-    {
-        token = CorregirToken(token);
-        string tokenDescodificado = AES256_Desencriptar(AES256_USER_Key, token);
-        string emailUsuario = tokenDescodificado.Split('#')[0];
-        return emailUsuario;
-    }
-
-    public bool ValidarTokenUsuario(string tokenUsuario)
-    {
-        try
-        {
-            tokenUsuario = CorregirToken(tokenUsuario);
-            string tokenDescodificado = AES256_Desencriptar(AES256_USER_Key, tokenUsuario);
-            string emailUsuario = tokenDescodificado.Split('#')[0];
-            string fecha = tokenDescodificado.Split('#')[1];
-            var verificarContraseña = _unitOfWork.Usuarios.Find(p => p.Email == emailUsuario).First();
-            // Validar fecha
-            DateTime fechaCaducidad = DateTime.ParseExact(fecha, "yyyyMMddHHmmss", System.Globalization.CultureInfo.InvariantCulture);
-            if (DateTime.UtcNow > fechaCaducidad || DateTime.UtcNow > verificarContraseña.FechaBaja )
-                return false;
-            else
-                return true;
-        }
-        catch (Exception)
-        {
-            return false;
-        }
-    }
+   
 
     public bool Logout(string tokenUsuario){
         if(ValidarTokenUsuario(tokenUsuario)){

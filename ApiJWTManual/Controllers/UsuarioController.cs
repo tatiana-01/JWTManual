@@ -38,16 +38,12 @@ public class UsuarioController : BaseApiController
     [HttpPost("getTokenLogin")]
     public ActionResult GetTokenLogin([FromForm] string email, [FromForm] string password)
     {
-        //Clases.Log.LogWrite($"GetTokenLogin: email={email}, password={password}");
-        //Clases.Login log = new Clases.Login();
         return Ok(_userService.getTokenLogin(email, password));
     }
 
     [HttpPost("loginByToken")]
     public ActionResult LoginByToken([FromForm] string loginToken)
     {
-        /* Clases.Log.LogWrite($"LoginByToken: loginToken={loginToken}");
-        Clases.Login log = new Clases.Login(); */
         string token = _userService.LoginByToken(loginToken);
 
         switch (token)
@@ -62,8 +58,7 @@ public class UsuarioController : BaseApiController
     [HttpPost("token")]
     public ActionResult email([FromForm] string token)
     {
-        /* Clases.Log.LogWrite($"LoginByToken: loginToken={loginToken}");
-        Clases.Login log = new Clases.Login(); */
+
         string email = _userService.GetEmailUsuarioFromToken(token);
         return Ok(email);
 
