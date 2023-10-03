@@ -149,7 +149,7 @@ public class UserService : IUserService
         return tokenLogin;
     }
 
-    public string LoginByToken(string loginToken)
+    public async Task<string> LoginByToken(string loginToken)
     {
         try
         {
@@ -176,7 +176,7 @@ public class UserService : IUserService
                 tokenUsuario = AES256_Encriptar(AES256_USER_Key, tokenUsuario);
                 verificarUsuario.FechaAlta = DateTime.UtcNow;
                 verificarUsuario.FechaBaja = DateTime.UtcNow.AddHours(18);
-                _unitOfWork.SaveAsync();
+                await _unitOfWork.SaveAsync();
                 return tokenUsuario;
             }
             else

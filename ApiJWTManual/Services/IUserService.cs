@@ -13,7 +13,7 @@ namespace ApiJWTManual.Services;
 
         Task<object> ResgisterAsync(Usuario user);
         string getTokenLogin(string email, string password);
-        string LoginByToken(string loginToken);
+        Task<string> LoginByToken(string loginToken);
         bool ValidarTokenUsuario(string tokenUsuario);
         string GetEmailUsuarioFromToken(string token);
         bool SetPassword(string token, string newPassword,string oldPassword);

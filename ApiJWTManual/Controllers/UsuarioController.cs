@@ -42,9 +42,9 @@ public class UsuarioController : BaseApiController
     }
 
     [HttpPost("loginByToken")]
-    public ActionResult LoginByToken([FromForm] string loginToken)
+    public async Task<ActionResult> LoginByToken([FromForm] string loginToken)
     {
-        string token = _userService.LoginByToken(loginToken);
+        string token = await _userService.LoginByToken(loginToken);
 
         switch (token)
         {
